@@ -69,7 +69,7 @@ public class ScriptedSimilarityTests extends ESTestCase {
 
     public void testBasics() throws IOException {
         final AtomicBoolean called = new AtomicBoolean();
-        SimilarityScript.Factory scriptFactory = () -> {
+        SimilarityScript.Factory CacheableScriptFactory = () -> {
             return new SimilarityScript() {
 
                 @Override
@@ -105,7 +105,7 @@ public class ScriptedSimilarityTests extends ESTestCase {
 
             };
         };
-        ScriptedSimilarity sim = new ScriptedSimilarity("foobar", null, "foobaz", scriptFactory, true);
+        ScriptedSimilarity sim = new ScriptedSimilarity("foobar", null, "foobaz", CacheableScriptFactory, true);
         Directory dir = new ByteBuffersDirectory();
         IndexWriter w = new IndexWriter(dir, newIndexWriterConfig().setSimilarity(sim));
 
@@ -142,7 +142,7 @@ public class ScriptedSimilarityTests extends ESTestCase {
 
     public void testInitScript() throws IOException {
         final AtomicBoolean initCalled = new AtomicBoolean();
-        SimilarityWeightScript.Factory weightScriptFactory = () -> {
+        SimilarityWeightScript.Factory weightCacheableScriptFactory = () -> {
             return new SimilarityWeightScript() {
 
                 @Override
@@ -163,7 +163,7 @@ public class ScriptedSimilarityTests extends ESTestCase {
             };
         };
         final AtomicBoolean called = new AtomicBoolean();
-        SimilarityScript.Factory scriptFactory = () -> {
+        SimilarityScript.Factory CacheableScriptFactory = () -> {
             return new SimilarityScript() {
 
                 @Override
@@ -199,7 +199,7 @@ public class ScriptedSimilarityTests extends ESTestCase {
 
             };
         };
-        ScriptedSimilarity sim = new ScriptedSimilarity("foobar", weightScriptFactory, "foobaz", scriptFactory, true);
+        ScriptedSimilarity sim = new ScriptedSimilarity("foobar", weightCacheableScriptFactory, "foobaz", CacheableScriptFactory, true);
         Directory dir = new ByteBuffersDirectory();
         IndexWriter w = new IndexWriter(dir, newIndexWriterConfig().setSimilarity(sim));
 

@@ -20,7 +20,7 @@ public abstract class TestScriptEngine implements ScriptEngine {
     public static <F> ScriptService scriptService(ScriptContext<F> context, F factory) {
         return new ScriptService(Settings.EMPTY, Map.of("test", new TestScriptEngine() {
             @Override
-            protected Object buildScriptFactory(ScriptContext<?> context) {
+            protected Object buildCacheableScriptFactory(ScriptContext<?> context) {
                 return factory;
             }
 
@@ -44,9 +44,9 @@ public abstract class TestScriptEngine implements ScriptEngine {
         Map<String, String> params
     ) {
         @SuppressWarnings("unchecked")
-        FactoryType castFactory = (FactoryType) buildScriptFactory(context);
+        FactoryType castFactory = (FactoryType) buildCacheableScriptFactory(context);
         return castFactory;
     }
 
-    protected abstract Object buildScriptFactory(ScriptContext<?> context);
+    protected abstract Object buildCacheableScriptFactory(ScriptContext<?> context);
 }

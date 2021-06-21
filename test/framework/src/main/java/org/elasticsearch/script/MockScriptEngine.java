@@ -92,7 +92,7 @@ public class MockScriptEngine implements ScriptEngine {
         }
         MockCompiledScript mockCompiled = new MockCompiledScript(name, params, source, script);
         if (context.instanceClazz.equals(FieldScript.class)) {
-            return context.factoryClazz.cast(new MockFieldScriptFactory(script));
+            return context.factoryClazz.cast(new MockFieldCacheableScriptFactory(script));
         } else if(context.instanceClazz.equals(TermsSetQueryScript.class)) {
             TermsSetQueryScript.Factory factory = (parameters, lookup) -> (TermsSetQueryScript.LeafFactory) ctx
                 -> new TermsSetQueryScript(parameters, lookup, ctx) {
@@ -127,7 +127,7 @@ public class MockScriptEngine implements ScriptEngine {
             };
             return context.factoryClazz.cast(factory);
         } else if (context.instanceClazz.equals(StringSortScript.class)) {
-            return context.factoryClazz.cast(new MockStringSortScriptFactory(script));
+            return context.factoryClazz.cast(new MockStringSortCacheableScriptFactory(script));
         } else if (context.instanceClazz.equals(IngestScript.class)) {
             IngestScript.Factory factory = vars -> new IngestScript(vars) {
                 @Override
@@ -217,16 +217,16 @@ public class MockScriptEngine implements ScriptEngine {
             ScoreScript.Factory factory = new MockScoreScript(script);
             return context.factoryClazz.cast(factory);
         } else if (context.instanceClazz.equals(ScriptedMetricAggContexts.InitScript.class)) {
-            ScriptedMetricAggContexts.InitScript.Factory factory = new MockMetricAggInitScriptFactory(script);
+            ScriptedMetricAggContexts.InitScript.Factory factory = new MockMetricAggInitCacheableScriptFactory(script);
             return context.factoryClazz.cast(factory);
         } else if (context.instanceClazz.equals(ScriptedMetricAggContexts.MapScript.class)) {
-            ScriptedMetricAggContexts.MapScript.Factory factory = new MockMetricAggMapScriptFactory(script);
+            ScriptedMetricAggContexts.MapScript.Factory factory = new MockMetricAggMapCacheableScriptFactory(script);
             return context.factoryClazz.cast(factory);
         } else if (context.instanceClazz.equals(ScriptedMetricAggContexts.CombineScript.class)) {
-            ScriptedMetricAggContexts.CombineScript.Factory factory = new MockMetricAggCombineScriptFactory(script);
+            ScriptedMetricAggContexts.CombineScript.Factory factory = new MockMetricAggCombineCacheableScriptFactory(script);
             return context.factoryClazz.cast(factory);
         } else if (context.instanceClazz.equals(ScriptedMetricAggContexts.ReduceScript.class)) {
-            ScriptedMetricAggContexts.ReduceScript.Factory factory = new MockMetricAggReduceScriptFactory(script);
+            ScriptedMetricAggContexts.ReduceScript.Factory factory = new MockMetricAggReduceCacheableScriptFactory(script);
             return context.factoryClazz.cast(factory);
         } else if (context.instanceClazz.equals(IntervalFilterScript.class)) {
             IntervalFilterScript.Factory factory = mockCompiled::createIntervalFilterScript;
@@ -439,9 +439,9 @@ public class MockScriptEngine implements ScriptEngine {
         }
     }
 
-    public static class MockMetricAggInitScriptFactory implements ScriptedMetricAggContexts.InitScript.Factory {
+    public static class MockMetricAggInitCacheableScriptFactory implements ScriptedMetricAggContexts.InitScript.Factory {
         private final MockDeterministicScript script;
-        MockMetricAggInitScriptFactory(MockDeterministicScript script) { this.script = script; }
+        MockMetricAggInitCacheableScriptFactory(MockDeterministicScript script) { this.script = script; }
         @Override public boolean isResultDeterministic() { return script.isResultDeterministic(); }
 
         @Override
@@ -472,9 +472,9 @@ public class MockScriptEngine implements ScriptEngine {
         }
     }
 
-    public static class MockMetricAggMapScriptFactory implements  ScriptedMetricAggContexts.MapScript.Factory {
+    public static class MockMetricAggMapCacheableScriptFactory implements  ScriptedMetricAggContexts.MapScript.Factory {
         private final MockDeterministicScript script;
-        MockMetricAggMapScriptFactory(MockDeterministicScript script) { this.script = script; }
+        MockMetricAggMapCacheableScriptFactory(MockDeterministicScript script) { this.script = script; }
         @Override public boolean isResultDeterministic() { return script.isResultDeterministic(); }
 
         @Override
@@ -520,9 +520,9 @@ public class MockScriptEngine implements ScriptEngine {
         }
     }
 
-    public static class MockMetricAggCombineScriptFactory implements ScriptedMetricAggContexts.CombineScript.Factory {
+    public static class MockMetricAggCombineCacheableScriptFactory implements ScriptedMetricAggContexts.CombineScript.Factory {
         private final MockDeterministicScript script;
-        MockMetricAggCombineScriptFactory(MockDeterministicScript script) { this.script = script; }
+        MockMetricAggCombineCacheableScriptFactory(MockDeterministicScript script) { this.script = script; }
         @Override public boolean isResultDeterministic() { return script.isResultDeterministic(); }
 
         @Override
@@ -552,9 +552,9 @@ public class MockScriptEngine implements ScriptEngine {
         }
     }
 
-    public static class MockMetricAggReduceScriptFactory implements ScriptedMetricAggContexts.ReduceScript.Factory {
+    public static class MockMetricAggReduceCacheableScriptFactory implements ScriptedMetricAggContexts.ReduceScript.Factory {
         private final MockDeterministicScript script;
-        MockMetricAggReduceScriptFactory(MockDeterministicScript script) { this.script = script; }
+        MockMetricAggReduceCacheableScriptFactory(MockDeterministicScript script) { this.script = script; }
         @Override public boolean isResultDeterministic() { return script.isResultDeterministic(); }
 
         @Override
@@ -680,9 +680,9 @@ public class MockScriptEngine implements ScriptEngine {
         }
     }
 
-    class MockFieldScriptFactory implements FieldScript.Factory {
+    class MockFieldCacheableScriptFactory implements FieldScript.Factory {
         private final MockDeterministicScript script;
-        MockFieldScriptFactory(MockDeterministicScript script) { this.script = script; }
+        MockFieldCacheableScriptFactory(MockDeterministicScript script) { this.script = script; }
         @Override public boolean isResultDeterministic() { return script.isResultDeterministic(); }
 
         @Override
@@ -699,9 +699,9 @@ public class MockScriptEngine implements ScriptEngine {
         }
     }
 
-    class MockStringSortScriptFactory implements StringSortScript.Factory {
+    class MockStringSortCacheableScriptFactory implements StringSortScript.Factory {
         private final MockDeterministicScript script;
-        MockStringSortScriptFactory(MockDeterministicScript script) { this.script = script; }
+        MockStringSortCacheableScriptFactory(MockDeterministicScript script) { this.script = script; }
         @Override public boolean isResultDeterministic() { return script.isResultDeterministic(); }
 
         @Override

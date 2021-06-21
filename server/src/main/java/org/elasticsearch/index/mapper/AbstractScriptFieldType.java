@@ -225,7 +225,7 @@ abstract class AbstractScriptFieldType<LeafFactory> extends MappedFieldType impl
             this.parseFromSourceFactory = parseFromSourceFactory;
         }
 
-        abstract RuntimeField newRuntimeField(Factory scriptFactory);
+        abstract RuntimeField newRuntimeField(Factory CacheableScriptFactory);
 
         @Override
         protected final RuntimeField createRuntimeField(Mapper.TypeParser.ParserContext parserContext) {

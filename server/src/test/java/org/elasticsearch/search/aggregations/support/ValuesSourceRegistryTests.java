@@ -23,9 +23,9 @@ public class ValuesSourceRegistryTests extends ESTestCase {
 
     public void testAggregatorNotFoundException() {
         AggregationContext context = mock(AggregationContext.class);
-        AggregationScript.Factory mockAggScriptFactory = mock(AggregationScript.Factory.class);
-        when(mockAggScriptFactory.newFactory(Mockito.any(), Mockito.any())).thenReturn(mock(AggregationScript.LeafFactory.class));
-        when(context.compile(Mockito.any(), Mockito.any())).thenReturn(mockAggScriptFactory);
+        AggregationScript.Factory mockAggCacheableScriptFactory = mock(AggregationScript.Factory.class);
+        when(mockAggCacheableScriptFactory.newFactory(Mockito.any(), Mockito.any())).thenReturn(mock(AggregationScript.LeafFactory.class));
+        when(context.compile(Mockito.any(), Mockito.any())).thenReturn(mockAggCacheableScriptFactory);
 
         ValuesSourceConfig fieldOnly = ValuesSourceConfig.resolve(
             context,

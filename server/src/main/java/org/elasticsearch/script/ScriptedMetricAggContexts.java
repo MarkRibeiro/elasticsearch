@@ -45,7 +45,7 @@ public class ScriptedMetricAggContexts {
 
         public abstract void execute();
 
-        public interface Factory extends ScriptFactory {
+        public interface Factory extends CacheableScriptFactory {
             InitScript newInstance(Map<String, Object> params, Map<String, Object> state);
         }
 
@@ -136,7 +136,7 @@ public class ScriptedMetricAggContexts {
             MapScript newInstance(LeafReaderContext ctx);
         }
 
-        public interface Factory extends ScriptFactory {
+        public interface Factory extends CacheableScriptFactory {
             LeafFactory newFactory(Map<String, Object> params, Map<String, Object> state, SearchLookup lookup);
         }
 
@@ -163,7 +163,7 @@ public class ScriptedMetricAggContexts {
 
         public abstract Object execute();
 
-        public interface Factory extends ScriptFactory {
+        public interface Factory extends CacheableScriptFactory {
             CombineScript newInstance(Map<String, Object> params, Map<String, Object> state);
         }
 
@@ -190,7 +190,7 @@ public class ScriptedMetricAggContexts {
 
         public abstract Object execute();
 
-        public interface Factory extends ScriptFactory {
+        public interface Factory extends CacheableScriptFactory {
             ReduceScript newInstance(Map<String, Object> params, List<Object> states);
         }
 

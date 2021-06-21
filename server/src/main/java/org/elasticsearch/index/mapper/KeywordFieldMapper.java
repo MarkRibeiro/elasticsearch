@@ -152,8 +152,8 @@ public final class KeywordFieldMapper extends FieldMapper {
             if (script.get() == null) {
                 return null;
             }
-            StringFieldScript.Factory scriptFactory = scriptCompiler.compile(script.get(), StringFieldScript.CONTEXT);
-            return scriptFactory == null ? null : (lookup, ctx, doc, consumer) -> scriptFactory
+            StringFieldScript.Factory CacheableScriptFactory = scriptCompiler.compile(script.get(), StringFieldScript.CONTEXT);
+            return CacheableScriptFactory == null ? null : (lookup, ctx, doc, consumer) -> CacheableScriptFactory
                 .newFactory(name, script.get().getParams(), lookup)
                 .newInstance(ctx)
                 .runForDoc(doc, consumer);

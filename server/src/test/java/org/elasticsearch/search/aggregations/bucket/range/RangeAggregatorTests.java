@@ -427,13 +427,13 @@ public class RangeAggregatorTests extends AggregatorTestCase {
     public void testRuntimeFieldTopLevelQueryStillOptimized() throws IOException {
         long totalDocs = (long) RangeAggregator.DOCS_PER_RANGE_TO_USE_FILTERS * 4;
         SearchLookup lookup = new SearchLookup(s -> null, (ft, l) -> null);
-        StringFieldScript.LeafFactory scriptFactory = ctx -> new StringFieldScript("dummy", Map.of(), lookup, ctx) {
+        StringFieldScript.LeafFactory CacheableScriptFactory = ctx -> new StringFieldScript("dummy", Map.of(), lookup, ctx) {
             @Override
             public void execute() {
                 emit("cat");
             }
         };
-        Query query = new StringScriptFieldTermQuery(new Script("dummy"), scriptFactory, "dummy", "cat", false);
+        Query query = new StringScriptFieldTermQuery(new Script("dummy"), CacheableScriptFactory, "dummy", "cat", false);
         debugTestCase(new RangeAggregationBuilder("r").field(NUMBER_FIELD_NAME).addRange(0, 1).addRange(1, 2).addRange(2, 3), query, iw -> {
             for (int d = 0; d < totalDocs; d++) {
                 iw.addDocument(List.of(new IntPoint(NUMBER_FIELD_NAME, 0), new SortedNumericDocValuesField(NUMBER_FIELD_NAME, 0)));

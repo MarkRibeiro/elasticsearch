@@ -57,11 +57,11 @@ public class ExpressionScriptEngine implements ScriptEngine {
 
     private static Map<ScriptContext<?>, Function<Expression,Object>> contexts = Map.of(
         BucketAggregationScript.CONTEXT,
-            ExpressionScriptEngine::newBucketAggregationScriptFactory,
+            ExpressionScriptEngine::newBucketAggregationCacheableScriptFactory,
 
         BucketAggregationSelectorScript.CONTEXT,
             (Expression expr) -> {
-                BucketAggregationScript.Factory factory = newBucketAggregationScriptFactory(expr);
+                BucketAggregationScript.Factory factory = newBucketAggregationCacheableScriptFactory(expr);
                 BucketAggregationSelectorScript.Factory wrappedFactory = parameters -> new BucketAggregationSelectorScript(parameters) {
                     @Override
                     public boolean execute() {
@@ -193,7 +193,7 @@ public class ExpressionScriptEngine implements ScriptEngine {
         return contexts.keySet();
     }
 
-    private static BucketAggregationScript.Factory newBucketAggregationScriptFactory(Expression expr) {
+    private static BucketAggregationScript.Factory newBucketAggregationCacheableScriptFactory(Expression expr) {
         return parameters -> {
             ReplaceableConstDoubleValues[] functionValuesArray =
                 new ReplaceableConstDoubleValues[expr.variables.length];

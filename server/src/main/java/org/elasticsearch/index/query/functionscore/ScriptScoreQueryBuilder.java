@@ -158,9 +158,9 @@ public class ScriptScoreQueryBuilder extends AbstractQueryBuilder<ScriptScoreQue
                     + ALLOW_EXPENSIVE_QUERIES.getKey() + "' is set to false.");
         }
         ScoreScript.Factory factory = context.compile(script, ScoreScript.CONTEXT);
-        ScoreScript.LeafFactory scoreScriptFactory = factory.newFactory(script.getParams(), context.lookup());
+        ScoreScript.LeafFactory scoreCacheableScriptFactory = factory.newFactory(script.getParams(), context.lookup());
         Query query = this.query.toQuery(context);
-        return new ScriptScoreQuery(query, script, scoreScriptFactory, minScore,
+        return new ScriptScoreQuery(query, script, scoreCacheableScriptFactory, minScore,
             context.index().getName(), context.getShardId(), context.indexVersionCreated());
     }
 

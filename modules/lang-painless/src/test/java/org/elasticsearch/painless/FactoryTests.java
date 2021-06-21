@@ -11,7 +11,7 @@ package org.elasticsearch.painless;
 import org.elasticsearch.painless.spi.Whitelist;
 import org.elasticsearch.script.ScriptContext;
 import org.elasticsearch.script.ScriptException;
-import org.elasticsearch.script.ScriptFactory;
+import org.elasticsearch.script.CacheableScriptFactory;
 import org.elasticsearch.script.TemplateScript;
 
 import java.util.Collections;
@@ -160,7 +160,7 @@ public class FactoryTests extends ScriptTestCase {
         public static final String[] PARAMETERS = new String[] {"test"};
         public abstract Object execute(int test);
 
-        public interface Factory extends ScriptFactory{
+        public interface Factory extends CacheableScriptFactory{
             FactoryTestScript newInstance(Map<String, Object> params);
 
             boolean needsTest();

@@ -37,8 +37,8 @@ public final class DoubleScriptFieldType extends AbstractScriptFieldType<DoubleF
     public static final RuntimeField.Parser PARSER = new RuntimeField.Parser(name ->
         new Builder<>(name, DoubleFieldScript.CONTEXT, DoubleFieldScript.PARSE_FROM_SOURCE) {
             @Override
-            RuntimeField newRuntimeField(DoubleFieldScript.Factory scriptFactory) {
-                return new DoubleScriptFieldType(name, scriptFactory, getScript(), meta(), this);
+            RuntimeField newRuntimeField(DoubleFieldScript.Factory CacheableScriptFactory) {
+                return new DoubleScriptFieldType(name, CacheableScriptFactory, getScript(), meta(), this);
             }
         });
 
@@ -48,12 +48,12 @@ public final class DoubleScriptFieldType extends AbstractScriptFieldType<DoubleF
 
     DoubleScriptFieldType(
         String name,
-        DoubleFieldScript.Factory scriptFactory,
+        DoubleFieldScript.Factory CacheableScriptFactory,
         Script script,
         Map<String, String> meta,
         ToXContent toXContent
     ) {
-        super(name, searchLookup -> scriptFactory.newFactory(name, script.getParams(), searchLookup), script, meta, toXContent);
+        super(name, searchLookup -> CacheableScriptFactory.newFactory(name, script.getParams(), searchLookup), script, meta, toXContent);
     }
 
     @Override

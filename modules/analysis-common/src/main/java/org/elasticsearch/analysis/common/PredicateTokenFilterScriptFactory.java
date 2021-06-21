@@ -23,11 +23,11 @@ import java.io.IOException;
  * A factory for creating FilteringTokenFilters that determine whether or not to
  * accept their underlying token by consulting a script
  */
-public class PredicateTokenFilterScriptFactory extends AbstractTokenFilterFactory {
+public class PredicateTokenFilterCacheableScriptFactory extends AbstractTokenFilterFactory {
 
     private final AnalysisPredicateScript.Factory factory;
 
-    public PredicateTokenFilterScriptFactory(IndexSettings indexSettings, String name, Settings settings, ScriptService scriptService) {
+    public PredicateTokenFilterCacheableScriptFactory(IndexSettings indexSettings, String name, Settings settings, ScriptService scriptService) {
         super(indexSettings, name, settings);
         Settings scriptSettings = settings.getAsSettings("script");
         Script script = Script.parse(scriptSettings);

@@ -24,17 +24,17 @@ public final class ScriptedSimilarity extends Similarity {
 
     final String weightScriptSource;
     final String scriptSource;
-    final SimilarityWeightScript.Factory weightScriptFactory;
-    final SimilarityScript.Factory scriptFactory;
+    final SimilarityWeightScript.Factory weightCacheableScriptFactory;
+    final SimilarityScript.Factory CacheableScriptFactory;
     final boolean discountOverlaps;
 
     /** Sole constructor. */
-    public ScriptedSimilarity(String weightScriptString, SimilarityWeightScript.Factory weightScriptFactory,
-            String scriptString, SimilarityScript.Factory scriptFactory, boolean discountOverlaps) {
+    public ScriptedSimilarity(String weightScriptString, SimilarityWeightScript.Factory weightCacheableScriptFactory,
+            String scriptString, SimilarityScript.Factory CacheableScriptFactory, boolean discountOverlaps) {
         this.weightScriptSource = weightScriptString;
-        this.weightScriptFactory = weightScriptFactory;
+        this.weightCacheableScriptFactory = weightCacheableScriptFactory;
         this.scriptSource = scriptString;
-        this.scriptFactory = scriptFactory;
+        this.CacheableScriptFactory = CacheableScriptFactory;
         this.discountOverlaps = discountOverlaps;
     }
 
@@ -51,10 +51,10 @@ public final class ScriptedSimilarity extends Similarity {
 
     /** Compute the part of the score that does not depend on the current document using the init_script. */
     private double computeWeight(Query query, Field field, Term term) {
-        if (weightScriptFactory == null) {
+        if (weightCacheableScriptFactory == null) {
             return 1d;
         }
-        SimilarityWeightScript weightScript = weightScriptFactory.newInstance();
+        SimilarityWeightScript weightScript = weightCacheableScriptFactory.newInstance();
         return weightScript.execute(query, field, term);
     }
 
@@ -75,7 +75,7 @@ public final class ScriptedSimilarity extends Similarity {
         SimScorer[] scorers = new SimScorer[terms.length];
         for (int i = 0; i < terms.length; ++i) {
             final Term term = terms[i];
-            final SimilarityScript script = scriptFactory.newInstance();
+            final SimilarityScript script = CacheableScriptFactory.newInstance();
             final Doc doc = new Doc();
             final double scoreWeight = computeWeight(query, field, term);
             scorers[i] = new SimScorer() {

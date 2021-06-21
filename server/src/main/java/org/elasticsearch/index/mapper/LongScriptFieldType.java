@@ -37,8 +37,8 @@ public final class LongScriptFieldType extends AbstractScriptFieldType<LongField
     public static final RuntimeField.Parser PARSER = new RuntimeField.Parser(name ->
         new Builder<>(name, LongFieldScript.CONTEXT, LongFieldScript.PARSE_FROM_SOURCE) {
             @Override
-            RuntimeField newRuntimeField(LongFieldScript.Factory scriptFactory) {
-                return new LongScriptFieldType(name, scriptFactory, getScript(), meta(), this);
+            RuntimeField newRuntimeField(LongFieldScript.Factory CacheableScriptFactory) {
+                return new LongScriptFieldType(name, CacheableScriptFactory, getScript(), meta(), this);
             }
         });
 
@@ -48,12 +48,12 @@ public final class LongScriptFieldType extends AbstractScriptFieldType<LongField
 
     LongScriptFieldType(
         String name,
-        LongFieldScript.Factory scriptFactory,
+        LongFieldScript.Factory CacheableScriptFactory,
         Script script,
         Map<String, String> meta,
         ToXContent toXContent
     ) {
-        super(name, searchLookup -> scriptFactory.newFactory(name, script.getParams(), searchLookup), script, meta, toXContent);
+        super(name, searchLookup -> CacheableScriptFactory.newFactory(name, script.getParams(), searchLookup), script, meta, toXContent);
     }
 
     @Override

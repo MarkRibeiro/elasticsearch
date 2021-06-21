@@ -36,8 +36,8 @@ public final class BooleanScriptFieldType extends AbstractScriptFieldType<Boolea
     public static final RuntimeField.Parser PARSER = new RuntimeField.Parser(name ->
         new Builder<>(name, BooleanFieldScript.CONTEXT, BooleanFieldScript.PARSE_FROM_SOURCE) {
             @Override
-            RuntimeField newRuntimeField(BooleanFieldScript.Factory scriptFactory) {
-                return new BooleanScriptFieldType(name, scriptFactory, getScript(), meta(), this);
+            RuntimeField newRuntimeField(BooleanFieldScript.Factory CacheableScriptFactory) {
+                return new BooleanScriptFieldType(name, CacheableScriptFactory, getScript(), meta(), this);
             }
         });
 
@@ -47,12 +47,12 @@ public final class BooleanScriptFieldType extends AbstractScriptFieldType<Boolea
 
     BooleanScriptFieldType(
         String name,
-        BooleanFieldScript.Factory scriptFactory,
+        BooleanFieldScript.Factory CacheableScriptFactory,
         Script script,
         Map<String, String> meta,
         ToXContent toXContent
     ) {
-        super(name, searchLookup -> scriptFactory.newFactory(name, script.getParams(), searchLookup), script, meta, toXContent);
+        super(name, searchLookup -> CacheableScriptFactory.newFactory(name, script.getParams(), searchLookup), script, meta, toXContent);
     }
 
     @Override

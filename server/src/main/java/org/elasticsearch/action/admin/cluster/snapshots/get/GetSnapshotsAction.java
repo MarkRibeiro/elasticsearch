@@ -16,7 +16,7 @@ import org.elasticsearch.action.ActionType;
 public class GetSnapshotsAction extends ActionType<GetSnapshotsResponse> {
 
     public static final GetSnapshotsAction INSTANCE = new GetSnapshotsAction();
-    public static final String NAME = "cluster:admin/snapshot/get";
+    public static final String NAME = "cluster:monitor/snapshot/get";
 
     private GetSnapshotsAction() {
         super(NAME, GetSnapshotsResponse::new);

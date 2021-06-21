@@ -26,7 +26,7 @@ import java.util.Objects;
 
 public class GetLifecycleAction extends ActionType<GetLifecycleAction.Response> {
     public static final GetLifecycleAction INSTANCE = new GetLifecycleAction();
-    public static final String NAME = "cluster:admin/ilm/get";
+    public static final String NAME = "cluster:monitor/ilm/get";
 
     protected GetLifecycleAction() {
         super(NAME, GetLifecycleAction.Response::new);

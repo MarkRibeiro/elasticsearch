@@ -16,7 +16,7 @@ import org.elasticsearch.xpack.core.security.authz.RoleDescriptor;
 public class HasPrivilegesAction extends ActionType<HasPrivilegesResponse> {
 
     public static final HasPrivilegesAction INSTANCE = new HasPrivilegesAction();
-    public static final String NAME = "cluster:admin/xpack/security/user/has_privileges";
+    public static final String NAME = "cluster:monitor/xpack/security/user/has_privileges";
 
     private HasPrivilegesAction() {
         super(NAME, HasPrivilegesResponse::new);

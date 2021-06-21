@@ -11,7 +11,7 @@ import org.elasticsearch.action.ActionType;
 
 public class GetPipelineAction extends ActionType<GetPipelineResponse> {
 
-    public static final String NAME = "cluster:admin/logstash/pipeline/get";
+    public static final String NAME = "cluster:monitor/logstash/pipeline/get";
     public static final GetPipelineAction INSTANCE = new GetPipelineAction();
 
     private GetPipelineAction() {

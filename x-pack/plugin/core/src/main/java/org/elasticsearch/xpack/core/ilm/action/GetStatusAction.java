@@ -23,7 +23,7 @@ import java.util.Objects;
 
 public class GetStatusAction extends ActionType<GetStatusAction.Response> {
     public static final GetStatusAction INSTANCE = new GetStatusAction();
-    public static final String NAME = "cluster:admin/ilm/operation_mode/get";
+    public static final String NAME = "cluster:monitor/ilm/operation_mode/get";
 
     protected GetStatusAction() {
         super(NAME, GetStatusAction.Response::new);

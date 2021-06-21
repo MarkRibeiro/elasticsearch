@@ -16,7 +16,7 @@ import org.elasticsearch.action.ActionType;
 public class GetRepositoriesAction extends ActionType<GetRepositoriesResponse> {
 
     public static final GetRepositoriesAction INSTANCE = new GetRepositoriesAction();
-    public static final String NAME = "cluster:admin/repository/get";
+    public static final String NAME = "cluster:monitor/repository/get";
 
     private GetRepositoriesAction() {
         super(NAME, GetRepositoriesResponse::new);

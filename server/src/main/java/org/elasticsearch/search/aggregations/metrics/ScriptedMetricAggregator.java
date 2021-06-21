@@ -47,11 +47,11 @@ class ScriptedMetricAggregator extends MetricsAggregator {
     private final SearchLookup lookup;
     private final Map<String, Object> aggParams;
     @Nullable
-    private final ScriptedMetricAggContexts.InitScript.Factory initScriptFactory;
+    private final ScriptedMetricAggContexts.InitScript.Factory initCacheableScriptFactory;
     private final Map<String, Object> initScriptParams;
-    private final ScriptedMetricAggContexts.MapScript.Factory mapScriptFactory;
+    private final ScriptedMetricAggContexts.MapScript.Factory mapCacheableScriptFactory;
     private final Map<String, Object> mapScriptParams;
-    private final ScriptedMetricAggContexts.CombineScript.Factory combineScriptFactory;
+    private final ScriptedMetricAggContexts.CombineScript.Factory combineCacheableScriptFactory;
     private final Map<String, Object> combineScriptParams;
     private final Script reduceScript;
     private ObjectArray<State> states;
@@ -60,11 +60,11 @@ class ScriptedMetricAggregator extends MetricsAggregator {
         String name,
         SearchLookup lookup,
         Map<String, Object> aggParams,
-        @Nullable ScriptedMetricAggContexts.InitScript.Factory initScriptFactory,
+        @Nullable ScriptedMetricAggContexts.InitScript.Factory initCacheableScriptFactory,
         Map<String, Object> initScriptParams,
-        ScriptedMetricAggContexts.MapScript.Factory mapScriptFactory,
+        ScriptedMetricAggContexts.MapScript.Factory mapCacheableScriptFactory,
         Map<String, Object> mapScriptParams,
-        ScriptedMetricAggContexts.CombineScript.Factory combineScriptFactory,
+        ScriptedMetricAggContexts.CombineScript.Factory combineCacheableScriptFactory,
         Map<String, Object> combineScriptParams,
         Script reduceScript,
         AggregationContext context,
@@ -74,11 +74,11 @@ class ScriptedMetricAggregator extends MetricsAggregator {
         super(name, context, parent, metadata);
         this.lookup = lookup;
         this.aggParams = aggParams;
-        this.initScriptFactory = initScriptFactory;
+        this.initCacheableScriptFactory = initCacheableScriptFactory;
         this.initScriptParams = initScriptParams;
-        this.mapScriptFactory = mapScriptFactory;
+        this.mapCacheableScriptFactory = mapCacheableScriptFactory;
         this.mapScriptParams = mapScriptParams;
-        this.combineScriptFactory = combineScriptFactory;
+        this.combineCacheableScriptFactory = combineCacheableScriptFactory;
         this.combineScriptParams = combineScriptParams;
         this.reduceScript = reduceScript;
         states = context.bigArrays().newObjectArray(1);
@@ -169,7 +169,7 @@ class ScriptedMetricAggregator extends MetricsAggregator {
             mapScriptParamsForState = ScriptedMetricAggregatorFactory.mergeParams(aggParamsForState, mapScriptParams);
             combineScriptParamsForState = ScriptedMetricAggregatorFactory.mergeParams(aggParamsForState, combineScriptParams);
             aggState = newInitialState(ScriptedMetricAggregatorFactory.mergeParams(aggParamsForState, initScriptParams));
-            mapScript = mapScriptFactory.newFactory(
+            mapScript = mapCacheableScriptFactory.newFactory(
                 ScriptedMetricAggregatorFactory.deepCopyParams(mapScriptParamsForState),
                 aggState,
                 lookup
@@ -177,20 +177,20 @@ class ScriptedMetricAggregator extends MetricsAggregator {
         }
 
         private Map<String, Object> newInitialState(Map<String, Object> initScriptParamsForState) {
-            if (initScriptFactory == null) {
+            if (initCacheableScriptFactory == null) {
                 return new HashMap<>();
             }
             Map<String, Object> initialState = new HashMap<>();
-            initScriptFactory.newInstance(initScriptParamsForState, initialState).execute();
+            initCacheableScriptFactory.newInstance(initScriptParamsForState, initialState).execute();
             CollectionUtils.ensureNoSelfReferences(initialState, "Scripted metric aggs init script");
             return initialState;
         }
 
         private Object combine() {
-            if (combineScriptFactory == null) {
+            if (combineCacheableScriptFactory == null) {
                 return aggState;
             }
-            Object result = combineScriptFactory.newInstance(combineScriptParamsForState, aggState).execute();
+            Object result = combineCacheableScriptFactory.newInstance(combineScriptParamsForState, aggState).execute();
             CollectionUtils.ensureNoSelfReferences(result, "Scripted metric aggs combine script");
             return result;
         }

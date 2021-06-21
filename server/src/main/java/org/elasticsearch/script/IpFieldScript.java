@@ -56,7 +56,7 @@ public abstract class IpFieldScript extends AbstractFieldScript {
     @SuppressWarnings("unused")
     public static final String[] PARAMETERS = {};
 
-    public interface Factory extends ScriptFactory {
+    public interface Factory extends CacheableScriptFactory {
         LeafFactory newFactory(String fieldName, Map<String, Object> params, SearchLookup searchLookup);
     }
 

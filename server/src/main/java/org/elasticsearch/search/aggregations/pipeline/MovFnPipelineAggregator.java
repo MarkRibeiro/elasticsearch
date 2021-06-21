@@ -72,13 +72,13 @@ public class MovFnPipelineAggregator extends PipelineAggregator {
         List<MultiBucketsAggregation.Bucket> newBuckets = new ArrayList<>();
 
         // Initialize the script
-        MovingFunctionScript.Factory scriptFactory = reduceContext.scriptService().compile(script, MovingFunctionScript.CONTEXT);
+        MovingFunctionScript.Factory CacheableScriptFactory = reduceContext.scriptService().compile(script, MovingFunctionScript.CONTEXT);
         Map<String, Object> vars = new HashMap<>();
         if (script.getParams() != null) {
             vars.putAll(script.getParams());
         }
 
-        MovingFunctionScript executableScript = scriptFactory.newInstance();
+        MovingFunctionScript executableScript = CacheableScriptFactory.newInstance();
 
         List<Double> values = buckets.stream()
             .map(b -> resolveBucketValue(histo, b, bucketsPaths()[0], gapPolicy))

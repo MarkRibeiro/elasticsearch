@@ -1949,7 +1949,7 @@ public class TermsAggregatorTests extends AggregatorTestCase {
     public void testRuntimeFieldTopLevelQueryStillOptimized() throws IOException {
         long totalDocs = 500;
         SearchLookup lookup = new SearchLookup(s -> null, (ft, l) -> null);
-        StringFieldScript.LeafFactory scriptFactory = ctx -> new StringFieldScript("dummy", Map.of(), lookup, ctx) {
+        StringFieldScript.LeafFactory CacheableScriptFactory = ctx -> new StringFieldScript("dummy", Map.of(), lookup, ctx) {
             @Override
             public void execute() {
                 emit("cat");
@@ -1958,7 +1958,7 @@ public class TermsAggregatorTests extends AggregatorTestCase {
         BytesRef[] values = new BytesRef[] {
             new BytesRef("stuff"), new BytesRef("more_stuff"), new BytesRef("other_stuff"),
         };
-        Query query = new StringScriptFieldTermQuery(new Script("dummy"), scriptFactory, "dummy", "cat", false);
+        Query query = new StringScriptFieldTermQuery(new Script("dummy"), CacheableScriptFactory, "dummy", "cat", false);
         debugTestCase(new TermsAggregationBuilder("t").field("k"), query, iw -> {
             for (int d = 0; d < totalDocs; d++) {
                 BytesRef value = values[d % values.length];

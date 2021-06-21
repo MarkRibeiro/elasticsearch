@@ -41,7 +41,7 @@ class PhraseSuggestionContext extends SuggestionContext {
     private boolean requireUnigram = DEFAULT_REQUIRE_UNIGRAM;
     private BytesRef preTag;
     private BytesRef postTag;
-    private TemplateScript.Factory scriptFactory;
+    private TemplateScript.Factory CacheableScriptFactory;
     private boolean prune = DEFAULT_COLLATE_PRUNE;
     private List<DirectCandidateGenerator> generators = new ArrayList<>();
     private Map<String, Object> collateScriptParams = new HashMap<>(1);
@@ -182,11 +182,11 @@ class PhraseSuggestionContext extends SuggestionContext {
     }
 
     TemplateScript.Factory getCollateQueryScript() {
-        return scriptFactory;
+        return CacheableScriptFactory;
     }
 
-    void setCollateQueryScript(TemplateScript.Factory scriptFactory) {
-        this.scriptFactory = scriptFactory;
+    void setCollateQueryScript(TemplateScript.Factory CacheableScriptFactory) {
+        this.CacheableScriptFactory = CacheableScriptFactory;
     }
 
     Map<String, Object> getCollateScriptParams() {

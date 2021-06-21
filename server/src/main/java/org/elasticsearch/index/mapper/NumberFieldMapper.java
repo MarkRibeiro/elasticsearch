@@ -371,8 +371,8 @@ public class NumberFieldMapper extends FieldMapper {
 
             @Override
             public FieldValues<Number> compile(String fieldName, Script script, ScriptCompiler compiler) {
-                DoubleFieldScript.Factory scriptFactory = compiler.compile(script, DoubleFieldScript.CONTEXT);
-                return (lookup, ctx, doc, consumer) -> scriptFactory
+                DoubleFieldScript.Factory CacheableScriptFactory = compiler.compile(script, DoubleFieldScript.CONTEXT);
+                return (lookup, ctx, doc, consumer) -> CacheableScriptFactory
                     .newFactory(fieldName, script.getParams(), lookup)
                     .newInstance(ctx)
                     .runForDoc(doc, consumer::accept);
@@ -683,8 +683,8 @@ public class NumberFieldMapper extends FieldMapper {
 
             @Override
             public FieldValues<Number> compile(String fieldName, Script script, ScriptCompiler compiler) {
-                final LongFieldScript.Factory scriptFactory = compiler.compile(script, LongFieldScript.CONTEXT);
-                return (lookup, ctx, doc, consumer) -> scriptFactory
+                final LongFieldScript.Factory CacheableScriptFactory = compiler.compile(script, LongFieldScript.CONTEXT);
+                return (lookup, ctx, doc, consumer) -> CacheableScriptFactory
                     .newFactory(fieldName, script.getParams(), lookup)
                     .newInstance(ctx)
                     .runForDoc(doc, consumer::accept);

@@ -23,7 +23,7 @@ public abstract class SimilarityScript {
     public abstract double execute(double weight, ScriptedSimilarity.Query query,
             ScriptedSimilarity.Field field, ScriptedSimilarity.Term term, ScriptedSimilarity.Doc doc);
 
-    public interface Factory extends ScriptFactory {
+    public interface Factory extends CacheableScriptFactory {
         SimilarityScript newInstance();
     }
 

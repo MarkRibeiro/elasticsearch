@@ -78,11 +78,11 @@ public class DateScriptFieldType extends AbstractScriptFieldType<DateFieldScript
             }
 
             @Override
-            RuntimeField newRuntimeField(DateFieldScript.Factory scriptFactory) {
+            RuntimeField newRuntimeField(DateFieldScript.Factory CacheableScriptFactory) {
                 String pattern = format.getValue() == null ? DateFieldMapper.DEFAULT_DATE_TIME_FORMATTER.pattern() : format.getValue();
                 Locale locale = this.locale.getValue() == null ? Locale.ROOT : this.locale.getValue();
                 DateFormatter dateTimeFormatter = DateFormatter.forPattern(pattern).withLocale(locale);
-                return new DateScriptFieldType(name, scriptFactory, dateTimeFormatter, getScript(), meta(), this);
+                return new DateScriptFieldType(name, CacheableScriptFactory, dateTimeFormatter, getScript(), meta(), this);
             }
         });
 
@@ -100,13 +100,13 @@ public class DateScriptFieldType extends AbstractScriptFieldType<DateFieldScript
 
     DateScriptFieldType(
         String name,
-        DateFieldScript.Factory scriptFactory,
+        DateFieldScript.Factory CacheableScriptFactory,
         DateFormatter dateTimeFormatter,
         Script script,
         Map<String, String> meta,
         ToXContent toXContent
     ) {
-        super(name, searchLookup -> scriptFactory.newFactory(name, script.getParams(), searchLookup, dateTimeFormatter),
+        super(name, searchLookup -> CacheableScriptFactory.newFactory(name, script.getParams(), searchLookup, dateTimeFormatter),
             script, meta, toXContent);
         this.dateTimeFormatter = dateTimeFormatter;
         this.dateMathParser = dateTimeFormatter.toDateMathParser();

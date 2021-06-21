@@ -25,16 +25,16 @@ public final class ScriptCondition implements ExecutableCondition {
     private static final Result UNMET = new Result(null, TYPE, false);
 
     private final Script script;
-    private final WatcherConditionScript.Factory scriptFactory;
+    private final WatcherConditionScript.Factory CacheableScriptFactory;
 
     public ScriptCondition(Script script) {
         this.script = script;
-        this.scriptFactory = null;
+        this.CacheableScriptFactory = null;
     }
 
     ScriptCondition(Script script, ScriptService scriptService) {
         this.script = script;
-        this.scriptFactory = scriptService.compile(script, WatcherConditionScript.CONTEXT);
+        this.CacheableScriptFactory = scriptService.compile(script, WatcherConditionScript.CONTEXT);
     }
 
     public Script getScript() {
@@ -57,7 +57,7 @@ public final class ScriptCondition implements ExecutableCondition {
     }
 
     public Result doExecute(WatchExecutionContext ctx) {
-        WatcherConditionScript conditionScript = scriptFactory.newInstance(script.getParams(), ctx);
+        WatcherConditionScript conditionScript = CacheableScriptFactory.newInstance(script.getParams(), ctx);
         return conditionScript.execute() ? MET : UNMET;
     }
 

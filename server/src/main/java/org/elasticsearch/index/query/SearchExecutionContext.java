@@ -50,7 +50,7 @@ import org.elasticsearch.index.query.support.NestedScope;
 import org.elasticsearch.index.similarity.SimilarityService;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.script.ScriptContext;
-import org.elasticsearch.script.ScriptFactory;
+import org.elasticsearch.script.CacheableScriptFactory;
 import org.elasticsearch.script.ScriptService;
 import org.elasticsearch.search.NestedDocuments;
 import org.elasticsearch.search.aggregations.support.ValuesSourceRegistry;
@@ -502,7 +502,7 @@ public class SearchExecutionContext extends QueryRewriteContext {
     /** Compile script using script service */
     public <FactoryType> FactoryType compile(Script script, ScriptContext<FactoryType> context) {
         FactoryType factory = scriptService.compile(script, context);
-        if (factory instanceof ScriptFactory && ((ScriptFactory) factory).isResultDeterministic() == false) {
+        if (factory instanceof CacheableScriptFactory && ((CacheableScriptFactory) factory).isResultDeterministic() == false) {
             failIfFrozen();
         }
         return factory;

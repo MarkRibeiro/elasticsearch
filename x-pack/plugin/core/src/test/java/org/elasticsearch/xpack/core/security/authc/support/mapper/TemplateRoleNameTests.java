@@ -197,13 +197,13 @@ public class TemplateRoleNameTests extends ESTestCase {
     public void testValidateWillCompileButNotExecutePainlessScript() {
         final TemplateScript compiledScript = mock(TemplateScript.class);
         doThrow(new IllegalStateException("Validate should not execute painless script")).when(compiledScript).execute();
-        final TemplateScript.Factory scriptFactory = mock(TemplateScript.Factory.class);
-        when(scriptFactory.newInstance(any())).thenReturn(compiledScript);
+        final TemplateScript.Factory CacheableScriptFactory = mock(TemplateScript.Factory.class);
+        when(CacheableScriptFactory.newInstance(any())).thenReturn(compiledScript);
 
         final ScriptEngine scriptEngine = mock(ScriptEngine.class);
         when(scriptEngine.getType()).thenReturn("painless");
         when(scriptEngine.compile(eq("valid"), eq("params.metedata.group"), any(), eq(Map.of())))
-            .thenReturn(scriptFactory);
+            .thenReturn(CacheableScriptFactory);
         final ScriptException scriptException =
             new ScriptException("exception", new IllegalStateException(), List.of(), "bad syntax", "painless");
         doThrow(scriptException)

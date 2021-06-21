@@ -9,7 +9,7 @@
 package org.elasticsearch.search.aggregations.pipeline;
 
 import org.elasticsearch.script.ScriptContext;
-import org.elasticsearch.script.ScriptFactory;
+import org.elasticsearch.script.CacheableScriptFactory;
 
 import java.util.Map;
 
@@ -25,7 +25,7 @@ public abstract class MovingFunctionScript {
      */
     public abstract double execute(Map<String, Object> params, double[] values);
 
-    public interface Factory extends ScriptFactory {
+    public interface Factory extends CacheableScriptFactory {
         MovingFunctionScript newInstance();
     }
 

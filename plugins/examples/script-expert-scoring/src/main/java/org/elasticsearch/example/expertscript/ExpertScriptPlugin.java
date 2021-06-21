@@ -18,7 +18,7 @@ import org.elasticsearch.script.ScoreScript;
 import org.elasticsearch.script.ScoreScript.LeafFactory;
 import org.elasticsearch.script.ScriptContext;
 import org.elasticsearch.script.ScriptEngine;
-import org.elasticsearch.script.ScriptFactory;
+import org.elasticsearch.script.CacheableScriptFactory;
 import org.elasticsearch.search.lookup.SearchLookup;
 
 import java.io.IOException;
@@ -82,7 +82,7 @@ public class ExpertScriptPlugin extends Plugin implements ScriptPlugin {
         }
 
         private static class PureDfFactory implements ScoreScript.Factory,
-                                                      ScriptFactory {
+                                                      CacheableScriptFactory {
             @Override
             public boolean isResultDeterministic() {
                 // PureDfLeafFactory only uses deterministic APIs, this

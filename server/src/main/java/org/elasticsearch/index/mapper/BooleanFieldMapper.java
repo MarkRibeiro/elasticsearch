@@ -109,8 +109,8 @@ public class BooleanFieldMapper extends FieldMapper {
             if (script.get() == null) {
                 return null;
             }
-            BooleanFieldScript.Factory scriptFactory = scriptCompiler.compile(script.get(), BooleanFieldScript.CONTEXT);
-            return scriptFactory == null ? null : (lookup, ctx, doc, consumer) -> scriptFactory
+            BooleanFieldScript.Factory CacheableScriptFactory = scriptCompiler.compile(script.get(), BooleanFieldScript.CONTEXT);
+            return CacheableScriptFactory == null ? null : (lookup, ctx, doc, consumer) -> CacheableScriptFactory
                 .newFactory(name, script.get().getParams(), lookup)
                 .newInstance(ctx)
                 .runForDoc(doc, consumer);

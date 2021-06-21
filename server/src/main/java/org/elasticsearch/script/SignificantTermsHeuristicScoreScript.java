@@ -21,7 +21,7 @@ public abstract class SignificantTermsHeuristicScoreScript {
 
     public abstract double execute(Map<String, Object> params);
 
-    public interface Factory extends ScriptFactory {
+    public interface Factory extends CacheableScriptFactory {
         SignificantTermsHeuristicScoreScript newInstance();
     }
 }

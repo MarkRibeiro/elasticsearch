@@ -14,7 +14,7 @@ import java.util.function.Function;
 /**
  * A mocked script used for testing purposes.  {@code deterministic} implies cacheability in query shard cache.
  */
-public abstract class MockDeterministicScript implements Function<Map<String, Object>, Object>, ScriptFactory {
+public abstract class MockDeterministicScript implements Function<Map<String, Object>, Object>, CacheableScriptFactory {
     public abstract Object apply(Map<String, Object> vars);
     public abstract boolean isResultDeterministic();
 

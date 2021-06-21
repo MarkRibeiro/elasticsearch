@@ -59,7 +59,7 @@ public class ScriptProcessorTests extends ESTestCase {
         ingestScript = scriptService.compile(script, IngestScript.CONTEXT).newInstance(script.getParams());
     }
 
-    public void testScriptingWithoutPrecompiledScriptFactory() throws Exception {
+    public void testScriptingWithoutPrecompiledCacheableScriptFactory() throws Exception {
         ScriptProcessor processor = new ScriptProcessor(randomAlphaOfLength(10), null, script, null, scriptService);
         IngestDocument ingestDocument = randomDocument();
         processor.execute(ingestDocument);

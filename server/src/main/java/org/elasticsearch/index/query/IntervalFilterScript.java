@@ -10,7 +10,7 @@ package org.elasticsearch.index.query;
 
 import org.apache.lucene.queries.intervals.IntervalIterator;
 import org.elasticsearch.script.ScriptContext;
-import org.elasticsearch.script.ScriptFactory;
+import org.elasticsearch.script.CacheableScriptFactory;
 
 /**
  * Base class for scripts used as interval filters, see {@link IntervalsSourceProvider.IntervalFilter}
@@ -40,7 +40,7 @@ public abstract class IntervalFilterScript {
 
     public abstract boolean execute(Interval interval);
 
-    public interface Factory extends ScriptFactory {
+    public interface Factory extends CacheableScriptFactory {
         IntervalFilterScript newInstance();
     }
 

@@ -44,8 +44,8 @@ public final class KeywordScriptFieldType extends AbstractScriptFieldType<String
     public static final RuntimeField.Parser PARSER = new RuntimeField.Parser(name ->
         new Builder<>(name, StringFieldScript.CONTEXT, StringFieldScript.PARSE_FROM_SOURCE) {
             @Override
-            RuntimeField newRuntimeField(StringFieldScript.Factory scriptFactory) {
-                return new KeywordScriptFieldType(name, scriptFactory, getScript(), meta(), this);
+            RuntimeField newRuntimeField(StringFieldScript.Factory CacheableScriptFactory) {
+                return new KeywordScriptFieldType(name, CacheableScriptFactory, getScript(), meta(), this);
             }
         });
 
@@ -55,12 +55,12 @@ public final class KeywordScriptFieldType extends AbstractScriptFieldType<String
 
     KeywordScriptFieldType(
         String name,
-        StringFieldScript.Factory scriptFactory,
+        StringFieldScript.Factory CacheableScriptFactory,
         Script script,
         Map<String, String> meta,
         ToXContent toXContent
     ) {
-        super(name, searchLookup -> scriptFactory.newFactory(name, script.getParams(), searchLookup), script, meta, toXContent);
+        super(name, searchLookup -> CacheableScriptFactory.newFactory(name, script.getParams(), searchLookup), script, meta, toXContent);
     }
 
     @Override

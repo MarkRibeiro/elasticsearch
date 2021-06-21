@@ -91,7 +91,7 @@ public abstract class FieldScript {
         FieldScript newInstance(LeafReaderContext ctx) throws IOException;
     }
 
-    public interface Factory extends ScriptFactory {
+    public interface Factory extends CacheableScriptFactory {
         LeafFactory newFactory(Map<String, Object> params, SearchLookup lookup);
     }
 

@@ -280,7 +280,7 @@ public class PluginsService implements ReportingService<PluginsAndModules> {
             try (DirectoryStream<Path> stream = Files.newDirectoryStream(rootPath)) {
                 for (Path plugin : stream) {
                     if (FileSystemUtils.isDesktopServicesStore(plugin) ||
-                        plugin.getFileName().toString().startsWith(".removing-")) {
+                        plugin.getFileName().toString().startsWith(".")) {
                         continue;
                     }
                     if (seen.add(plugin.getFileName().toString()) == false) {
